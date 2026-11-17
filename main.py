@@ -391,10 +391,10 @@ def _cat_status_label(status):
 
 def send_email(subject, changes, shows, movie_info):
     api_key = RESEND_API_KEY.strip()
-    to = RESEND_TO_EMAIL.strip()
+    recipients = [e.strip() for e in RESEND_TO_EMAIL.split(",") if e.strip()]
     frm = RESEND_FROM_EMAIL.strip() or "onboarding@resend.dev"
 
-    if not api_key or not to:
+    if not api_key or not recipients:
         print("  ⚠️  Skipping email — RESEND_API_KEY or RESEND_TO_EMAIL not set.")
         return
 
@@ -505,7 +505,7 @@ def send_email(subject, changes, shows, movie_info):
                 "Content-Type": "application/json",
             },
             json={
-                "from": frm, "to": [to],
+                "from": frm, "to": recipients,
                 "subject": subject,
                 "text": plain, "html": html,
             },
