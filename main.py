@@ -591,9 +591,7 @@ def main():
     new_state = build_state(filtered, all_dates)
     old_state = load_state()
 
-    changes = []
-    if old_state:
-        changes = detect_changes(old_state, new_state)
+    changes = detect_changes(old_state or {}, new_state)
 
     save_state(new_state)
 
